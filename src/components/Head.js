@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { toggleMenu } from "../utils/appSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { YOUTUBE_SUGGESTION_API } from "../utils/contants";
+import store from "../utils/store";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions,setSuggestions]=useState([]);
   const [showSuggestion,setShowSuggestion]=useState(false);
+  const searchCache=useSelector((store)=>store.Search)
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     console.log(searchQuery);
 
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+    const timer = setTimeout(() =>{
+
+      if(searchCache[searchQuery]){
+        setSuggestions(searchCache[searchQuery])
+        console.log(suggestions);
+      }
+      else{
+        getSearchSuggestions()
+
+      }
+     }, 200);
     return () => {
       clearTimeout(timer);
     };
@@ -25,6 +38,11 @@ const Head = () => {
     const json = await data.json();
     setSuggestions(json[1]);
     // console.log(json[1]);
+
+    // update cache in slice store 
+    dispatch(cacheResults({
+      [searchQuery]:json[1],
+    }))
   };
 
   const toggleMenuHandler = () => {
@@ -50,7 +68,7 @@ const Head = () => {
       <div className="col-span-10 px-10 ">
         <div>
           <input
-            className="w-1/2 border border-gray-400 p-2 rounded-l-full"
+            className="w-1/2  border border-gray-400 p-4 rounded-l-full"
             type="text"
             placeholder="Type to Search"
             value={searchQuery}
@@ -68,7 +86,7 @@ const Head = () => {
             🔍
           </button>
         </div>
-        {showSuggestion && (<div className="fised bg-white py-2 px-5 w-[37rem] shadow-lg rounded-lg border-gray-100 ">
+        {showSuggestion && (<div className="fixed bg-white py-2 px-5 w-[37rem] shadow-lg rounded-lg border-gray-100 ">
         <ul>
             {
                 suggestions.map((s)=>(
