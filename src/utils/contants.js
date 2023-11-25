@@ -53,3 +53,6 @@ export const CommentData=[
         replies:[]
     }
 ]
+
+
+export const OFF_LIVE_CHAT=10
