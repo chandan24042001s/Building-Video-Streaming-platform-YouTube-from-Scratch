@@ -68,7 +68,7 @@ const Head = () => {
       <div className="col-span-10 px-10 ">
         <div>
           <input
-            className="w-1/2  border border-gray-400 p-4 rounded-l-full"
+            className="w-1/2  border border-gray-400 p-2 rounded-l-full"
             type="text"
             placeholder="Type to Search"
             value={searchQuery}
