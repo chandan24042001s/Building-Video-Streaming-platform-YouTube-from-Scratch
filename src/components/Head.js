@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toggleMenu } from "../utils/appSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { YOUTUBE_SUGGESTION_API } from "../utils/contants";
-import store from "../utils/store";
+
 import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
