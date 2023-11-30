@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ChatMessage from './ChatMessage'
 import { useDispatch, useSelector } from 'react-redux';
-import store from '../utils/store';
+
 import { addMessage } from '../utils/chatSlice';
 import { generateRandomName, generateRandomString } from '../utils/helper';
 
@@ -28,7 +28,7 @@ const LiveChat = () => {
             console.log("API Polling")
         },2000);
         return ()=>clearInterval(i);
-    },[]);
+    },[dispatch]);
 
   return (
     <>
